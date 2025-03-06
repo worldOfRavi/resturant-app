@@ -3,7 +3,14 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import { LockKeyhole, Mail, PhoneCall, User } from "lucide-react";
+import {
+  Eye,
+  EyeClosed,
+  LockKeyhole,
+  Mail,
+  PhoneCall,
+  User,
+} from "lucide-react";
 import { RegisterInputStates, userRegisterSchema } from "@/schema/userSchema";
 
 interface UserRegistrationError {
@@ -28,6 +35,10 @@ const Register = () => {
   // state for passowrd strength
   const [passwordStrength, setPasswordStrength] = useState<string>("");
 
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+
+  // function to calculate the password strength
   const validatePasswordStrength = (password: string) => {
     const lengthCheck = password.length >= 8;
     const upperCaseCheck = /[A-Z]/.test(password);
@@ -121,13 +132,23 @@ const Register = () => {
           <div className="mb-3 relative">
             <Input
               className="pl-8"
-              type="password"
+              type={`${showPassword ? "text" : "password"}`}
               name="password"
               value={inputs.password}
               onChange={handleInputChange}
               placeholder="Password"
             />
             <LockKeyhole className="absolute inset-y-2 w-5 h-5 left-1 text-gray-500 pointer-events-none" />
+            <div
+              className="w-5 absolute inset-y-2 right-2 cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <EyeClosed className="absolute inset-y-.75 w-5 h-5 right-.1 text-gray-500 pointer-events-none" />
+              ) : (
+                <Eye className="absolute inset-y-.75 w-5 h-5 right-.1 text-gray-500 pointer-events-none" />
+              )}
+            </div>
             {errors && (
               <span className="text-red-500 text-xs">
                 {errors?.password?.map((msg, index) => (
@@ -151,13 +172,23 @@ const Register = () => {
           <div className="mb-3 relative">
             <Input
               className="pl-8"
-              type="password"
+              type={`${showConfirmPassword ? "text" : "password"}`}
               name="confirmPassword"
               value={inputs.confirmPassword}
               onChange={handleInputChange}
               placeholder="Confrim Password"
             />
             <LockKeyhole className="absolute inset-y-2 w-5 h-5 left-1 text-gray-500 pointer-events-none" />
+            <div
+              className="w-5 absolute inset-y-2 right-2 cursor-pointer"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? (
+                <EyeClosed className="absolute inset-y-.75 w-5 h-5 right-.1 text-gray-500 pointer-events-none" />
+              ) : (
+                <Eye className="absolute inset-y-.75 w-5 h-5 right-.1 text-gray-500 pointer-events-none" />
+              )}
+            </div>
             {errors && (
               <span className="text-red-500 text-xs">
                 {errors.confirmPassword}

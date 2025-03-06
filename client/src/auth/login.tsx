@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import {LockKeyhole, Mail} from 'lucide-react'
+import {Eye, EyeClosed, LockKeyhole, Mail} from 'lucide-react'
 import { LoginInputStates, userLoginSchema } from "@/schema/userSchema";
 
 // no need to explicitly define interface or type as we can get it from the zod schema
@@ -18,7 +18,9 @@ const Login = () => {
     email : "",
     password : ""
   })
-const [errors, setErrors] = useState<Partial<LoginInputStates>>({})
+const [errors, setErrors] = useState<Partial<LoginInputStates>>({});
+
+const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleInputChange = (e:ChangeEvent<HTMLInputElement>) =>{
     const {name, value} = e.target;
     setInputs({...inputs, [name] : value});
@@ -58,9 +60,19 @@ function handleSubmit(e:FormEvent){
             {errors && <span className="text-red-500 text-xs">{errors.email}</span>}
           </div>
           <div className="mb-3 relative">
-            <Input className="pl-8" type="password" name="password" value={inputs.password} onChange={handleInputChange} placeholder="Password" />
+            <Input className="pl-8" type={`${showPassword ? "text" : "password"}`} name="password" value={inputs.password} onChange={handleInputChange} placeholder="Password" />
             {errors && <span className="text-red-500 text-xs">{errors.password}</span>}
             <LockKeyhole className="absolute inset-y-2 w-5 h-5 left-1 text-gray-500 pointer-events-none"/>
+            <div
+              className="w-5 absolute inset-y-2 right-2 cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <EyeClosed className="absolute inset-y-.75 w-5 h-5 right-.1 text-gray-500 pointer-events-none" />
+              ) : (
+                <Eye className="absolute inset-y-.75 w-5 h-5 right-.1 text-gray-500 pointer-events-none" />
+              )}
+            </div>
           </div>
           <Button type="submit" className="w-full bg-orange hover:bg-hoverOrange cursor-pointer">
             Login
