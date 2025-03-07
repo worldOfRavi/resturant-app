@@ -2,6 +2,9 @@ import { createBrowserRouter, Route, RouterProvider, Routes } from 'react-router
 import Login from './auth/login'
 import Register from './auth/register'
 import MainLayout from './components/comon/MainLayout'
+import ForgetPassword from './auth/forgetPassword'
+import ResetPassword from './auth/resetPassword'
+import VerifyEmail from './auth/verifyEmail'
 const appRouter  = createBrowserRouter([
   {
     path:"/",
@@ -14,6 +17,17 @@ const appRouter  = createBrowserRouter([
   {
     path : "/register",
     element : <Register />
+  },{
+    path : "/forgot-password",
+    element : <ForgetPassword />
+  },
+  {
+    path : "/reset-password",
+    element : <ResetPassword />
+  },
+  {
+    path : "/verify-email",
+    element : <VerifyEmail />
   }
 ])
 

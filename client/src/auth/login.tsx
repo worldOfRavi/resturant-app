@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import {Eye, EyeClosed, LockKeyhole, Mail} from 'lucide-react'
+import {Eye, EyeClosed, Loader2, LockKeyhole, Mail} from 'lucide-react'
 import { LoginInputStates, userLoginSchema } from "@/schema/userSchema";
 
 // no need to explicitly define interface or type as we can get it from the zod schema
@@ -14,6 +14,7 @@ import { LoginInputStates, userLoginSchema } from "@/schema/userSchema";
 
 
 const Login = () => {
+  const loading : boolean   = false;
   const [inputs, setInputs] = useState<LoginInputStates>({
     email : "",
     password : ""
@@ -74,14 +75,20 @@ function handleSubmit(e:FormEvent){
               )}
             </div>
           </div>
-          <Button type="submit" className="w-full bg-orange hover:bg-hoverOrange cursor-pointer">
+          {
+            loading ? <Button disabled className="w-full bg-orange hover:bg-hoverOrange"><Loader2 className="mr-2 h-4 w-4 animate-spin"/> Please Wait</Button> : <Button type="submit" className="w-full bg-orange hover:bg-hoverOrange cursor-pointer">
             Login
           </Button>
+          }
+          
+          <div className="mt-3 text-center">
+            <Link to={"/forgot-password"} className="text-orange">Forgot password?</Link>
+          </div>
         </div>
         <Separator />
         <p className="mt-2">
           Don't have an account?{" "}
-          <Link className="font-bold text-orange" to={"/register"}>
+          <Link className="text-orange" to={"/register"}>
             Register
           </Link>
         </p>
